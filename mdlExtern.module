@@ -15,7 +15,7 @@ PUBLIC FUNCTION CapsLockIsOn() AS Boolean
   display = XOpenDisplay(NULL)
   XkbGetIndicatorState(display, 256, ptr)
   READ #ptr, tmp
-  result = tmp AND &h1
+  result = (tmp AND &h1) = 1
   XCloseDisplay(display)
   Free(ptr)
   
