@@ -4,7 +4,6 @@ PUBLIC start_type AS Boolean
 PUBLIC pos AS Integer
 PUBLIC char AS String
 PUBLIC stop_type AS Boolean
-PUBLIC is_capslock_on AS Boolean
 PUBLIC correct_typing AS Boolean
 PUBLIC tuts_number AS Integer
 PUBLIC last_open_dir AS String
@@ -17,7 +16,6 @@ PUBLIC SUB reset()
   pos = 0
   char = ""
   stop_type = FALSE
-  is_capslock_on = FALSE
   correct_typing = FALSE
   tuts_number = 0
 END

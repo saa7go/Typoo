@@ -1,0 +1,23 @@
+' Gambas module file
+
+PRIVATE EXTERN XOpenDisplay(d AS String) AS Pointer IN "libX11"
+PRIVATE EXTERN XCloseDisplay(d AS Pointer) AS Integer IN "libX11"
+PRIVATE EXTERN XkbGetIndicatorState(d AS Pointer, keycode AS Integer, d AS Pointer) AS Integer IN "libX11"
+
+PUBLIC FUNCTION CapsLockIsOn() AS Boolean
+  
+  DIM display AS Pointer
+  DIM tmp AS Integer
+  DIM ptr AS Pointer
+  DIM result AS Boolean
+  
+  ptr = Alloc(4) 'Alloc(8) in 64bit
+  display = XOpenDisplay(NULL)
+  XkbGetIndicatorState(display, 256, ptr)
+  READ #ptr, tmp
+  result = tmp AND &h1
+  XCloseDisplay(display)
+  Free(ptr)
+  
+  RETURN result
+END

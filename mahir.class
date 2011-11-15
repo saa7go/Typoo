@@ -42,29 +42,6 @@ PUBLIC SUB _new()
   ME.Center
 END
 
-PUBLIC SUB detect_capslock()
-  
-  'this code take from Stefano Palmeri post in gambas forum (http://gambasrad.org/zforum/view_topic?topic_id=1685)
-  
-  DIM sShellOutput AS String
-  DIM iKeyLocks AS Integer
-  
-  SHELL "xset q | grep 'LED mask:' | grep -o 0000000." TO sShellOutput
-  iKeyLocks = Val(sShellOutput)
-  
-  SELECT iKeyLocks
-  CASE 0
-    mdlGlobal.is_capslock_on = FALSE
-  CASE 1
-    mdlGlobal.is_capslock_on = TRUE
-  CASE 2
-    mdlGlobal.is_capslock_on = FALSE
-  CASE 3
-    mdlGlobal.is_capslock_on = TRUE
-  END SELECT 
-  
-END
-
 PUBLIC SUB caps_indicator(show_indicator AS Boolean)
   IF show_indicator = TRUE THEN 
     pict_caps_indicator__.Visible = TRUE
@@ -76,9 +53,7 @@ PUBLIC SUB caps_indicator(show_indicator AS Boolean)
 END
 
 PUBLIC SUB capslock_info()
-  'detect caps lock
-  detect_capslock
-  IF mdlGlobal.is_capslock_on = TRUE THEN 
+  IF mdlExtern.CapsLockIsOn() THEN 
     caps_indicator(TRUE)
   ELSE 
     caps_indicator(FALSE)
@@ -112,8 +87,7 @@ PUBLIC SUB type_here___KeyPress()
   
   mdlGlobal.char = Mid(mdlGlobal.text, mdlGlobal.pos, 1)
   IF Asc(mdlGlobal.char) >= 97 AND Asc(mdlGlobal.char) <= 122 THEN     ' letter a - z
-    detect_capslock
-    IF mdlGlobal.is_capslock_on = TRUE THEN 
+    IF mdlExtern.CapsLockIsOn() THEN 
       mdlGlobal.correct_typing = FALSE
       'RETURN
       GOTO checktype
@@ -127,15 +101,13 @@ PUBLIC SUB type_here___KeyPress()
     ENDIF 
   ELSE IF Asc(mdlGlobal.char) >= 65 AND Asc(mdlGlobal.char) <= 90 THEN ' letter A - Z
     IF Key.Code = Key[mdlGlobal.char] AND IF Key.Shift THEN
-      detect_capslock
-      IF mdlGlobal.is_capslock_on = FALSE THEN
+      IF mdlExtern.CapsLockIsOn() THEN
         mdlGlobal.correct_typing = TRUE
       ELSE 
         mdlGlobal.correct_typing = FALSE
       ENDIF 
     ELSE
-      detect_capslock
-      IF mdlGlobal.is_capslock_on = TRUE THEN
+      IF mdlExtern.CapsLockIsOn() THEN
         IF (Key.Code) = Key[mdlGlobal.char] THEN
           mdlGlobal.correct_typing = TRUE
         ELSE
@@ -264,24 +236,6 @@ checktype:
 END
 
 PUBLIC SUB mn_open_Click()
-
-  ' DIM texttemp AS String
-  ' 
-  ' __text = ""
-  ' texttemp = ""
-  ' Dialog.Title = "Pilih berkas latihan..."
-  ' Dialog.Filter = ["*", "Text File"]
-  ' Dialog.Path = User.home 
-  ' IF Dialog.OpenFile(FALSE) THEN RETURN
-  ' __text = Trim((File.Load(Dialog.Path)))
-  ' texttemp = __text
-  ' __text = Replace(__text, "<", "&#60 ")
-  ' __text = Replace(__text, ">", "&#62 ")
-  ' board__.Text = __text
-  ' __text = texttemp
-  ' texttemp = ""
-  ' char_count__.Text = Format(Len(__text), "#,##")
-
   OpenFileTutorial
 END
 
