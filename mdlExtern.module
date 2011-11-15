@@ -4,20 +4,30 @@ PRIVATE EXTERN XOpenDisplay(display_name AS String) AS Pointer IN "libX11"
 PRIVATE EXTERN XCloseDisplay(display AS Pointer) AS Integer IN "libX11"
 PRIVATE EXTERN XkbGetIndicatorState(display AS Pointer, keycode AS Integer, return_value AS Pointer) AS Integer IN "libX11"
 
+PRIVATE m_display AS Pointer
+PRIVATE m_ptr AS Pointer
+
+PUBLIC SUB InitDisplay()
+  m_ptr = Alloc(4)
+  m_display = XOpenDisplay(NULL)
+END SUB 
+
+PUBLIC SUB RemoveDisplay()
+  
+  XCloseDisplay(m_display)
+  Free(m_ptr)
+  
+END
+
+
 PUBLIC FUNCTION CapsLockIsOn() AS Boolean
   
-  DIM display AS Pointer
   DIM tmp AS Integer
-  DIM ptr AS Pointer
   DIM result AS Boolean
   
-  ptr = Alloc(4) 'Alloc(8) in 64bit
-  display = XOpenDisplay(NULL)
-  XkbGetIndicatorState(display, 256, ptr)
-  READ #ptr, tmp
+  XkbGetIndicatorState(m_display, 256, m_ptr)
+  READ #m_ptr, tmp
   result = (tmp AND &h1) = 1
-  XCloseDisplay(display)
-  Free(ptr)
   
   RETURN result
 END
