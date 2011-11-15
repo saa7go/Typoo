@@ -101,7 +101,7 @@ PUBLIC SUB type_here___KeyPress()
     ENDIF 
   ELSE IF Asc(mdlGlobal.char) >= 65 AND Asc(mdlGlobal.char) <= 90 THEN ' letter A - Z
     IF Key.Code = Key[mdlGlobal.char] AND IF Key.Shift THEN
-      IF mdlExtern.CapsLockIsOn() THEN
+      IF mdlExtern.CapsLockIsOn() = FALSE THEN
         mdlGlobal.correct_typing = TRUE
       ELSE 
         mdlGlobal.correct_typing = FALSE
