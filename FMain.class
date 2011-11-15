@@ -28,6 +28,7 @@ PUBLIC latihan_ngetik AS String = " Pada mode ini anda akan dipandu untuk belaja
 PUBLIC mahir_ngetik AS String = " Pada mode ini anda akan disimulasikan seperti mengetik yang sebenarnya (kalau salah ketik harus tekan tombol backspace). Dengan fitur kecepatan mengetik, keakuratan mengetik, serta kesalahan mengetik."
 
 PUBLIC SUB _new()
+  mdlExtern.InitDisplay()
   mode_latihan___Click
   ME.Center
 END
@@ -78,8 +79,8 @@ DIM about_info AS String
 
 END
 
-PUBLIC SUB Form_Open()
+PUBLIC SUB Form_Close()
 
-  
+  mdlExtern.RemoveDisplay()
 
 END
