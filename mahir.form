@@ -220,7 +220,7 @@
   }
   { info_char__ Label
     MoveScaled(4,5,19,18)
-    Font = Font["Droid Sans,Bold,80"]
+    Font = Font["Century Schoolbook L,Bold,80"]
     Background = &H1A1A1A&
     Foreground = &HFFFF00&
     ToolTip = ("Huruf selanjutnya yang harus diketik")
