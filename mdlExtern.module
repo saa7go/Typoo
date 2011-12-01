@@ -1,8 +1,8 @@
 ' Gambas module file
 
-PRIVATE EXTERN XOpenDisplay(display_name AS String) AS Pointer IN "libX11"
-PRIVATE EXTERN XCloseDisplay(display AS Pointer) AS Integer IN "libX11"
-PRIVATE EXTERN XkbGetIndicatorState(display AS Pointer, keycode AS Integer, return_value AS Pointer) AS Integer IN "libX11"
+PRIVATE EXTERN XOpenDisplay(display_name AS String) AS Pointer IN "libX11:6"
+PRIVATE EXTERN XCloseDisplay(display AS Pointer) AS Integer IN "libX11:6"
+PRIVATE EXTERN XkbGetIndicatorState(display AS Pointer, keycode AS Integer, return_value AS Pointer) AS Integer IN "libX11:6"
 
 PRIVATE m_display AS Pointer
 PRIVATE m_ptr AS Pointer
