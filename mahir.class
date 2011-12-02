@@ -229,11 +229,11 @@ checktype:
   ELSE     '// user type wrong letter :(
   
     '// if user press shift or capslock button don't record it as error :(
-    IF Key.Code = 4128 THEN  'key shift
+    IF Key.Shift THEN  'key shift
       stop_type = stop_type
       RETURN
     ENDIF
-    IF Key.Code = 4132 THEN  'key capslock
+    IF Key.Code = Key.CapsLock THEN  'key capslock
       stop_type = stop_type
       capslock_info
       RETURN 
