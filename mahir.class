@@ -44,8 +44,11 @@ PRIVATE correct_typing AS Integer
 PRIVATE textlength AS Integer
 PRIVATE cursorpos AS Integer
 
+PRIVATE hfile AS File
+
 PUBLIC SUB _new()
-  'mdlGlobal.reset
+  hfile = OPEN User.Home &/ "typoo-dbg.txt" FOR OUTPUT CREATE 
+   
   LoadConfig
   ME.Center
 END
@@ -96,6 +99,7 @@ PUBLIC SUB type_here___KeyPress()
   capslock_info
   
   char = Mid(__text, pos, 1)
+  PRINT #hfile, "Current char: " & char & gb.NewLine
   IF char = gb.NewLine THEN 
     IF Key.Code = Key.Return OR Key.Code = Key.Enter THEN 
       correct_typing = TRUE
@@ -191,10 +195,12 @@ checktype:
       WITH board__
       cursorpos = cursorpos + 1
       .Select(cursorpos, 1)
+      PRINT #hfile, "selection text: " & .Selection.Text & gb.NewLine
       WHILE Right(.Selection.Text, 6) = "<br />"
         .Unselect
         cursorpos = cursorpos + 1
         .Select(cursorpos, 1)
+        PRINT #hfile, "selection text: " & .Selection.Text & gb.NewLine
       WEND 
       .Format.Color = Color.Blue 
       .Format.Font.Underline = TRUE
@@ -343,6 +349,7 @@ PUBLIC SUB null_info()
 END
 
 PUBLIC SUB Form_Close()
+  CLOSE #hfile
   Timer1.Enabled = FALSE
   FMain.Show
   SaveConfig
